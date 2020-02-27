@@ -1,28 +1,25 @@
 language: node_js
 node_js:
-  - node # uses most recent stable node version
+- node
 services:
-  - postgresql # starts up postgres
+- postgresql
 addons:
-  postgresql: '9.6' # highest available postgres version on Travis
-dist: trusty # uses trusty environment
-sudo: false # when on trusty, uses Docker containers for speed
+  postgresql: '9.6'
+dist: trusty
+sudo: false
 notifications:
   email:
-    on_success: change # default: change (only when going from broken to fixed)
-    on_failure: always # default: always (which is annoying, as it should be)
+    on_success: change
+    on_failure: always
 install:
-  - npm ci # faster, goes only from package-lock
+- npm ci
 before_script:
-  - psql -c 'create database "deployment-exercise-test";' -U postgres # remember to change this name if you change it elsewhere (e.g. package.json)
-before_deploy: # omit node_modules, since we set skip_cleanup below
-  - rm -rf node_modules
-deploy: # see README for details on these keys
-  # prevents travis from deleting the build
+- psql -c 'create database "deployment-exercise-test";' -U postgres
+before_deploy:
+- rm -rf node_modules
+deploy:
   skip_cleanup: true
   provider: heroku
-  # app should be your heroku app name; see README
   app: shielded-hamlet-41176
-  # the secure key indicates an encrypted value; see README
   api_key:
-    secure: 02OFlM8L2yDK93Jl1LnnVhzDtHLPnRg6Yao2xxQ6G3pvj8U9TItEJ4YHPYQxQppLQwWzPpL+/lpa0EbHDhKZbFcw/KvUFn8o52amHIL+YpVe7Zute513x0PLglYUAANZ+R/3cLg+SM61sll5/Ba/6K5dB2hG7u+vh53iRvmOhiH84tRiJW3qwGu0G/vq7nCeb3hiIQX1dqYQY01Cmio1NTo7B1fmiYa/QToIAcha8tvdLNx05Jh/9aP18gjg5hH8pqmAqq5mPWoYZXPDQ0Pa/tLO05PIExSkikLF+HYmOq38yEKjwX0C04dh8lDUuHtfEVpBRL/PyeYj2VwUxv9wTsH+US2VJPW2uaMIkHRvmiNHAK1neaaQb1atdJv+uH7ohlq/b1xSNWZvz/N0DDykKuGZu7IgDJFZN2FRAOyhxBirGJ68D99Z5XSoop6Pg523t9Rr1P3pCxgXi0DgiO30vfXBO6zAR0rndzLecXLWit4WUBdGZdKVcHo7+qO74QzDb6+ce8hALERrZMx1QLQMApDl2uG43RDQ0d75bGAaIfIgSyoGqSQQVjct07TMx1TeTWeLc67w3+yGGEfS1o7ZGf3+XR30f9iFRAFMeQaWcgU2XIngz+ywAhsXSDLSOwQ9JzJEXQKO8CG8QnJKjKzGiZb+UKPep+nuZwhBpSr4lv8=
+    secure: qeZInPhUkdY13BXe4vYdMm56zQiOuuVptUH0x2aOJrZaniTUhFiAki3pzjLko4Y6KDTsNLlY4APRZnBw0nIIBvq/4+KT8++XP5SGU+/Qpft1562UumYWkl2xQGQTwI6sBlV25BJumurvLTBMd/EqzlA4t6DYo5buSE8o5OJguYRuuVzDT+GCXp8hvA+Z5L+jMgHeNXh2li/tgXra9EcscG6o7di5ICz8O1Vu2+Q1oo1JAlywLK8TsUBUhds2QyPKrshb7zcKiNBXu3lBZfe5wobEdZYyGZOn0xKvHdXu1I7FU4xQOtiAogiqJPlFqHR7uawHneL+k2z1jPvt+vfSO5TH63UmEEbaelV+1GsGC52B/QxHhfAxahM4UoGyw8mSArzP1SdlTUQYuu6VvAkc3iB8W7avDa3wlqZcwoVmo5ouywIUOAcLwdqYBbkH08OKCyk8vWTAx7jFBsqO8snSTxcY3N901TX/1a5uh0SGtzywWkfsI7koGeHRJf6DdO4/ClL65IwUa0cOpqUztBa/g+iLz6iEkDUmzZb09k0SiDdIhdDZtYqTvUzFU1Ij54v6W7FGIP8FnR4/VSA7outb3vT6RkBCZ3rQ3bbnuoXxmLXDJM1yIvd8TTun4hDnR6jHTTEAdB53iUg10BSV9FolQpD4P0e43zqJKLPY4qTtjhI=
